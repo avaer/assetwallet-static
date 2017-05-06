@@ -39,12 +39,12 @@ const _parseWords = words => {
 };
 const getAddress = words => _parseWords(words).bitcoinAddress;
 const getKey = words => _parseWords(words).wifKey;
-// const decodeTx = rawTx => new bitcore.Transaction(rawTx).toObject();
+const decodeTx = rawTx => new bitcore.Transaction(rawTx).toObject();
 
 module.exports = {
   makeWords,
   getAddress,
   getKey,
-  // decodeTx,
+  decodeTx,
   bitcore,
 };
