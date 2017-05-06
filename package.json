@@ -1,6 +1,6 @@
 {
   "name": "assetwallet-static",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Isomorphic (frontend + backend-compatible) assetwallet api pieces",
   "main": "index.js",
   "dependencies": {
