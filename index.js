@@ -1,5 +1,6 @@
 const mnemonic = require('mnemonic-browser');
 const bitcore = require('./deps/bitcore-lib');
+const utilBitcore = require('./deps/util.bitcore.js')
 
 const cryptoRandom = () => { // browser
   const array = new Uint32Array(1);
@@ -40,11 +41,21 @@ const _parseWords = words => {
 const getAddress = words => _parseWords(words).bitcoinAddress;
 const getKey = words => _parseWords(words).wifKey;
 const decodeTx = rawTx => new bitcore.Transaction(rawTx).toObject();
+const signTx = (rawTx, wifKey) => new Promise((accept, reject) => {
+  new utilBitcore.CWPrivateKey(wifKey).signRawTransaction(rawTx, (err, signedRawTx) => {
+    if (!err) {
+      accept(signedRawTx);
+    } else {
+      reject(err);
+    }
+  });
+});
 
 module.exports = {
   makeWords,
   getAddress,
   getKey,
   decodeTx,
+  signTx,
   bitcore,
 };
