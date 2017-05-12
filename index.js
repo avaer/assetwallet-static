@@ -2,23 +2,12 @@ const mnemonic = require('mnemonic-browser');
 const bitcore = require('./deps/bitcore-lib');
 const utilBitcore = require('./deps/util.bitcore.js')
 
-const cryptoRandom = () => { // browser
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return Math.abs(array[0] / 0xFFFFFFFF);
-};
-
-/* const cryptoRandom = () => { // node; XXX not supported -- if we ever want this on the backend we need to figure out the isomorphic import
-  const array = new Uint32Array(1);
-  const setArray = new Uint8Array(array.buffer);
-  setArray.set(crypto.randomBytes(setArray.byteLength));
-  return Math.abs(array[0] / 0xFFFFFFFF);
-}; */
+module.exports = ({random}) => {
 
 const makeWords = () => {
   const result = Array(12);
   for (let i = 0; i < result.length; i++) {
-    result[i] = mnemonic.words[Math.floor(cryptoRandom() * mnemonic.words.length)];
+    result[i] = mnemonic.words[Math.floor(random() * mnemonic.words.length)];
   }
   return result.join(' ');
 };
@@ -51,11 +40,13 @@ const signTx = (rawTx, wifKey) => new Promise((accept, reject) => {
   });
 });
 
-module.exports = {
+return {
   makeWords,
   getAddress,
   getKey,
   decodeTx,
   signTx,
   bitcore,
+};
+
 };
